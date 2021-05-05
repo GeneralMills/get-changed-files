@@ -7,6 +7,25 @@ require('./sourcemap-register.js');module.exports =
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -19,12 +38,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FileService = void 0;
 const github_1 = __webpack_require__(438);
+const core = __importStar(__webpack_require__(186));
 class FileService {
     constructor(token) {
         this.token = token;
     }
     getFiles() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function* () {
             let base;
             let head;
@@ -38,7 +58,8 @@ class FileService {
                     head = github_1.context.payload.after;
                     // special case for initial creation of branch
                     if (+base === 0) {
-                        base = 'HEAD^';
+                        base = github_1.context.payload.base_ref ? github_1.context.payload.base_ref : (_e = github_1.context.payload.repository) === null || _e === void 0 ? void 0 : _e.default_branch;
+                        core.info(`Switched Base to (${base}) for initial check-in.`);
                     }
                     break;
                 default:
@@ -50,7 +71,7 @@ class FileService {
                 owner: github_1.context.repo.owner,
                 repo: github_1.context.repo.repo
             });
-            const files = (_e = response.data.files) === null || _e === void 0 ? void 0 : _e.filter(x => ['added', 'modified'].includes(x.status));
+            const files = (_f = response.data.files) === null || _f === void 0 ? void 0 : _f.filter(x => ['added', 'modified'].includes(x.status));
             return ((files === null || files === void 0 ? void 0 : files.map(x => x.filename)) || []).join(' ');
         });
     }

@@ -23,7 +23,8 @@ export class FileService {
 
         // special case for initial creation of branch
         if (+base === 0) {
-          base = 'HEAD^';
+          base = context.payload.base_ref ? context.payload.base_ref : context.payload.repository?.default_branch;
+          core.info(`Switched Base to (${base}) for initial check-in.`);
         }
         break
       default:
