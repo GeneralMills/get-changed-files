@@ -6,6 +6,8 @@ inputs:
     description: 'GitHub Token for API Requests'
     required: true
     default: ${{ github.token }}
+outputs:
+  files: JSON string of files
 runs:
   using: 'node12'
   main: 'dist/index.js'
