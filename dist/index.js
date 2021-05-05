@@ -56,12 +56,15 @@ class FileService {
                 case 'push':
                     base = github_1.context.payload.before;
                     head = github_1.context.payload.after;
+                    // special case for initial creation of branch
+                    if (+base === 0) {
+                        core.warning(`Cannot find changed files on initial branch creation.`);
+                        return '';
+                    }
                     break;
                 default:
                     throw new Error('action must be used within a pull_request or push event');
             }
-            core.info(`Base: ${base}`);
-            core.info(`Head: ${head}`);
             const response = yield github_1.getOctokit(this.token).repos.compareCommits({
                 base,
                 head,
