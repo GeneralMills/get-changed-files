@@ -23,9 +23,7 @@ export class FileService {
 
         // special case for initial creation of branch
         if (+base === 0) {
-          core.warning(`Cannot find changed files on initial branch creation.`);
-          core.info(JSON.stringify(context, null, 4));
-          return '';
+          base = 'HEAD^';
         }
         break
       default:
