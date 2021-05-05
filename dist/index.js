@@ -47,7 +47,7 @@ class FileService {
                 repo: github_1.context.repo.repo
             });
             const files = (_e = response.data.files) === null || _e === void 0 ? void 0 : _e.filter(x => ['added', 'modified'].includes(x.status));
-            return (files === null || files === void 0 ? void 0 : files.map(x => x.filename)) || [];
+            return ((files === null || files === void 0 ? void 0 : files.map(x => x.filename)) || []).join(' ');
         });
     }
 }
