@@ -1,4 +1,5 @@
 import {getOctokit, context} from '@actions/github'
+import * as core from '@actions/core'
 
 export class FileService {
   private readonly token: string
@@ -25,6 +26,9 @@ export class FileService {
           'action must be used within a pull_request or push event'
         )
     }
+
+    core.info(`Base: ${base}`)
+    core.info(`Head: ${head}`)
 
     const response = await getOctokit(this.token).repos.compareCommits({
       base,
