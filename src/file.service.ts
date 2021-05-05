@@ -7,7 +7,7 @@ export class FileService {
     this.token = token
   }
 
-  async getFiles(): Promise<string> {
+  async getFiles(): Promise<string[]> {
     let base: string
     let head: string
 
@@ -37,6 +37,6 @@ export class FileService {
       ['added', 'modified'].includes(x.status)
     )
 
-    return JSON.stringify(files)
+    return files?.map(x => x.filename) || [];
   }
 }
