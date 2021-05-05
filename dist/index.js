@@ -59,6 +59,7 @@ class FileService {
                     // special case for initial creation of branch
                     if (+base === 0) {
                         core.warning(`Cannot find changed files on initial branch creation.`);
+                        core.info(JSON.stringify(github_1.context, null, 4));
                         return '';
                     }
                     break;
