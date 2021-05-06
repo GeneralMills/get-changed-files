@@ -74,11 +74,11 @@ class FileService {
                 repo: github_1.context.repo.repo
             });
             let files = (_f = response.data.files) === null || _f === void 0 ? void 0 : _f.filter(x => ['added', 'modified'].includes(x.status));
-            if (paths) {
+            if (paths && paths.length > 0) {
                 core.info(`Path Used: ${paths}`);
                 files = files === null || files === void 0 ? void 0 : files.filter(x => micromatch.isMatch(x.filename, paths));
             }
-            return ((files === null || files === void 0 ? void 0 : files.map(x => x.filename)) || []).join(' ');
+            return ((files === null || files === void 0 ? void 0 : files.map(x => `"${x.filename}"`)) || []).join(' ');
         });
     }
 }

@@ -46,11 +46,11 @@ export class FileService {
       ['added', 'modified'].includes(x.status)
     )
 
-    if (paths) {
+    if (paths && paths.length > 0) {
       core.info(`Path Used: ${paths}`);
       files = files?.filter(x => micromatch.isMatch(x.filename, paths));
     }
 
-    return (files?.map(x => x.filename) || []).join(' ');
+    return (files?.map(x => `"${x.filename}"`) || []).join(' ');
   }
 }
