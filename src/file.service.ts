@@ -9,7 +9,7 @@ export class FileService {
     this.token = token
   }
 
-  async getFiles(path: string): Promise<string> {
+  async getFiles(paths: string[]): Promise<string> {
     let base: string
     let head: string
 
@@ -46,9 +46,9 @@ export class FileService {
       ['added', 'modified'].includes(x.status)
     )
 
-    if (path) {
-      core.info(`Path Used: ${path}`);
-      files = files?.filter(x => micromatch.isMatch(x.filename, path));
+    if (paths) {
+      core.info(`Path Used: ${paths}`);
+      files = files?.filter(x => micromatch.isMatch(x.filename, paths));
     }
 
     return (files?.map(x => x.filename) || []).join(' ');

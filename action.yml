@@ -6,8 +6,8 @@ inputs:
     description: 'GitHub Token for API Requests'
     required: true
     default: ${{ github.token }}
-  path:
-    description: 'Path for Filtering Results'
+  paths:
+    description: 'Paths for Filtering Results'
     required: false
 outputs:
   files:

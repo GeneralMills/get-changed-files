@@ -44,7 +44,7 @@ class FileService {
     constructor(token) {
         this.token = token;
     }
-    getFiles(path) {
+    getFiles(paths) {
         var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function* () {
             let base;
@@ -74,9 +74,9 @@ class FileService {
                 repo: github_1.context.repo.repo
             });
             let files = (_f = response.data.files) === null || _f === void 0 ? void 0 : _f.filter(x => ['added', 'modified'].includes(x.status));
-            if (path) {
-                core.info(`Path Used: ${path}`);
-                files = files === null || files === void 0 ? void 0 : files.filter(x => micromatch.isMatch(x.filename, path));
+            if (paths) {
+                core.info(`Path Used: ${paths}`);
+                files = files === null || files === void 0 ? void 0 : files.filter(x => micromatch.isMatch(x.filename, paths));
             }
             return ((files === null || files === void 0 ? void 0 : files.map(x => x.filename)) || []).join(' ');
         });
@@ -124,10 +124,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(2186));
 const file_service_1 = __webpack_require__(645);
 function run() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const path = core.getInput('path');
-            const files = yield new file_service_1.FileService(core.getInput('token', { required: true })).getFiles(path);
+            const paths = ((_a = core.getInput('paths')) === null || _a === void 0 ? void 0 : _a.split(' ')) || [];
+            const files = yield new file_service_1.FileService(core.getInput('token', { required: true })).getFiles(paths);
             core.setOutput('files', files);
         }
         catch (error) {
