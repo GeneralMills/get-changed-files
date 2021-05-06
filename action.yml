@@ -6,6 +6,9 @@ inputs:
     description: 'GitHub Token for API Requests'
     required: true
     default: ${{ github.token }}
+  path:
+    description: 'Path for Filtering Results'
+    required: false
 outputs:
   files:
     description: 'array of files changed'

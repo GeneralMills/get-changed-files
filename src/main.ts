@@ -3,12 +3,15 @@ import {FileService} from './file.service'
 
 async function run(): Promise<void> {
   try {
+    const path: string = core.getInput('path');
+
     const files = await new FileService(
       core.getInput('token', {required: true})
-    ).getFiles()
-    core.setOutput('files', files)
+    ).getFiles(path);
+
+    core.setOutput('files', files);
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error.message);
   }
 }
 

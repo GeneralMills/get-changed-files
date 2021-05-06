@@ -1,4 +1,5 @@
 import {getOctokit, context} from '@actions/github'
+import * as micromatch from 'micromatch';
 import * as core from '@actions/core'
 
 export class FileService {
@@ -8,7 +9,7 @@ export class FileService {
     this.token = token
   }
 
-  async getFiles(): Promise<string> {
+  async getFiles(path: string): Promise<string> {
     let base: string
     let head: string
 
@@ -41,9 +42,14 @@ export class FileService {
       repo: context.repo.repo
     })
 
-    const files = response.data.files?.filter(x =>
+    let files = response.data.files?.filter(x =>
       ['added', 'modified'].includes(x.status)
     )
+
+    if (path) {
+      core.info(`Path Used: ${path}`);
+      files = files?.filter(x => micromatch.isMatch(x.filename, path));
+    }
 
     return (files?.map(x => x.filename) || []).join(' ');
   }
