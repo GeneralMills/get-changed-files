@@ -124,10 +124,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(2186));
 const file_service_1 = __webpack_require__(645);
 function run() {
-    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const paths = ((_a = core.getInput('paths')) === null || _a === void 0 ? void 0 : _a.split(' ')) || [];
+            const paths = core.getInput('paths') ? core.getInput('paths').split(' ') : [];
             const files = yield new file_service_1.FileService(core.getInput('token', { required: true })).getFiles(paths);
             core.setOutput('files', files);
         }
