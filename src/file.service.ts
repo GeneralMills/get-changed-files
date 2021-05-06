@@ -53,6 +53,7 @@ export class FileService {
       files = files?.filter(x => micromatch.isMatch(x.filename, paths));
     }
 
+    core.info(`Found (${files?.length}) ${files?.length === 1 ? 'File' : 'Files'}`);
     return (files?.map(x => `"${x.filename}"`) || []).join(' ');
   }
 }

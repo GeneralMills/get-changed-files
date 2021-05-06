@@ -79,6 +79,7 @@ class FileService {
                 core.info(`Paths: ${paths}`);
                 files = files === null || files === void 0 ? void 0 : files.filter(x => micromatch.isMatch(x.filename, paths));
             }
+            core.info(`Found (${files === null || files === void 0 ? void 0 : files.length}) ${(files === null || files === void 0 ? void 0 : files.length) === 1 ? 'File' : 'Files'}`);
             return ((files === null || files === void 0 ? void 0 : files.map(x => `"${x.filename}"`)) || []).join(' ');
         });
     }
@@ -129,7 +130,6 @@ function run() {
         try {
             const paths = core.getInput('paths') ? core.getInput('paths').split(' ') : [];
             const files = yield new file_service_1.FileService(core.getInput('token', { required: true })).getFiles(paths);
-            core.info(`Found (${files.length}) ${files.length === 1 ? 'File' : 'Files'}`);
             core.setOutput('files', files);
         }
         catch (error) {

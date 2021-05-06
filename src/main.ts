@@ -9,7 +9,6 @@ async function run(): Promise<void> {
       core.getInput('token', {required: true})
     ).getFiles(paths);
 
-    core.info(`Found (${files.length}) ${files.length === 1 ? 'File' : 'Files'}`);
     core.setOutput('files', files);
   } catch (error) {
     core.setFailed(error.message);
