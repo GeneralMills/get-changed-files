@@ -61,12 +61,13 @@ class FileService {
                     if (+base === 0) {
                         base = github_1.context.payload.base_ref ? github_1.context.payload.base_ref : (_e = github_1.context.payload.repository) === null || _e === void 0 ? void 0 : _e.default_branch;
                         core.info(`Switched Base to (${base}) for initial check-in.`);
-                        core.info(JSON.stringify(github_1.context, null, 4));
                     }
                     break;
                 default:
                     throw new Error('action must be used within a pull_request or push event');
             }
+            core.info(`Head SHA: ${head}`);
+            core.info(`Base SHA: ${base}`);
             const response = yield github_1.getOctokit(this.token).repos.compareCommits({
                 base,
                 head,
@@ -75,7 +76,7 @@ class FileService {
             });
             let files = (_f = response.data.files) === null || _f === void 0 ? void 0 : _f.filter(x => ['added', 'modified'].includes(x.status));
             if (paths && paths.length > 0) {
-                core.info(`Path Used: ${paths}`);
+                core.info(`Paths: ${paths}`);
                 files = files === null || files === void 0 ? void 0 : files.filter(x => micromatch.isMatch(x.filename, paths));
             }
             return ((files === null || files === void 0 ? void 0 : files.map(x => `"${x.filename}"`)) || []).join(' ');
@@ -128,6 +129,7 @@ function run() {
         try {
             const paths = core.getInput('paths') ? core.getInput('paths').split(' ') : [];
             const files = yield new file_service_1.FileService(core.getInput('token', { required: true })).getFiles(paths);
+            core.info(`Found (${files.length}) ${files.length === 1 ? 'File' : 'Files'}`);
             core.setOutput('files', files);
         }
         catch (error) {

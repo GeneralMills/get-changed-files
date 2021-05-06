@@ -26,7 +26,6 @@ export class FileService {
         if (+base === 0) {
           base = context.payload.base_ref ? context.payload.base_ref : context.payload.repository?.default_branch;
           core.info(`Switched Base to (${base}) for initial check-in.`);
-          core.info(JSON.stringify(context, null, 4));
         }
         break
       default:
@@ -34,6 +33,9 @@ export class FileService {
           'action must be used within a pull_request or push event'
         )
     }
+
+    core.info(`Head SHA: ${head}`);
+    core.info(`Base SHA: ${base}`);
 
     const response = await getOctokit(this.token).repos.compareCommits({
       base,
@@ -47,7 +49,7 @@ export class FileService {
     )
 
     if (paths && paths.length > 0) {
-      core.info(`Path Used: ${paths}`);
+      core.info(`Paths: ${paths}`);
       files = files?.filter(x => micromatch.isMatch(x.filename, paths));
     }
 
