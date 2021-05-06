@@ -60,6 +60,7 @@ class FileService {
                     if (+base === 0) {
                         base = github_1.context.payload.base_ref ? github_1.context.payload.base_ref : (_e = github_1.context.payload.repository) === null || _e === void 0 ? void 0 : _e.default_branch;
                         core.info(`Switched Base to (${base}) for initial check-in.`);
+                        core.info(JSON.stringify(github_1.context, null, 4));
                     }
                     break;
                 default:

@@ -25,6 +25,7 @@ export class FileService {
         if (+base === 0) {
           base = context.payload.base_ref ? context.payload.base_ref : context.payload.repository?.default_branch;
           core.info(`Switched Base to (${base}) for initial check-in.`);
+          core.info(JSON.stringify(context, null, 4));
         }
         break
       default:
