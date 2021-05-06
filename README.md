@@ -17,7 +17,7 @@ return all the files that have been added/modified between the two branches.
 ```yaml
 steps:
   - id: changes
-    uses: GeneralMills/get-changed-files@v1
+    uses: GeneralMills/get-changed-files@v2
     with:
       paths: examples/** other-examples/* test.txt
   - name: Echo File Changes
